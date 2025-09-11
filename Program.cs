@@ -1,33 +1,66 @@
-﻿Dictionary<String, string[]> diasDaSemana = new()
+﻿
+Dictionary<String, string[]> diasDaSemana = new()
 {
     ["segunda"] = ["Sala 1, Bloco 1", "Sala 2, CT"],
-    ["terca"]   = ["Sala 2, CT", "Sala 2, CT"],
-    ["quarta"]  = ["Sala 1, Bloco 1", "Sala 2 CT"],
-    ["quinta"]  = ["", ""],
-    ["sexta"]   = ["Sala 3, Bloco 4", "Sala 4, CT"],
+    ["terca"] = ["Sala 2, CT", "Sala 2, CT"],
+    ["quarta"] = ["Sala 1, Bloco 1", "Sala 2 CT"],
+    ["quinta"] = ["", ""],
+    ["sexta"] = ["Sala 3, Bloco 4", "Sala 4, CT"],
 };
 
-string? userInput;
-
-do
+Dictionary<int, string> inputBindings = new()
 {
-    Console.WriteLine("Bem-vindo(a) ao meu programa de listagem de ensalamento!\nDigite um dia da semana para obter o ensamento:");
-    userInput = Console.ReadLine();
+    [1] = "segunda",
+    [2] = "terca",
+    [3] = "quarta",
+    [4] = "quinta",
+    [5] = "sexta"
+};
 
-    if (userInput != null)
-    {
-        string userInputFiltered = userInput.Trim();
-        if (diasDaSemana.ContainsKey(userInputFiltered))
+int userInput;
+
+while(true) {
+    try {
+        Console.WriteLine("Boas-vindas! Digite um dia da semana para começar.\n");
+
+        for (int binding = 1; binding <= inputBindings.Count; binding++)
         {
-            Console.WriteLine("\n============= Encontrou! =============");
-            Console.WriteLine(string.Join(" | ", diasDaSemana[userInputFiltered]));
-            Console.WriteLine("======================================\n");
+            Console.WriteLine($"[{binding}] = \"{inputBindings[binding]}\"");
         }
-        else
+
+        Console.WriteLine("\nPressione CTRL + C para sair...");
+        userInput = Convert.ToInt32(Console.ReadLine());
+
+        if (userInput != null)
         {
-            Console.WriteLine("\n============= Nao Encontrou! ============= ");
-            Console.WriteLine($"\"{userInputFiltered.GetType().FullName}\"");
-            Console.WriteLine("==========================================\n");
+            int userInputFiltered = (int)userInput;
+            if (inputBindings.ContainsKey(userInputFiltered))
+            {
+                Console.WriteLine("\n============= Encontrou! =============");
+                Console.WriteLine(string.Join(" | ", diasDaSemana[inputBindings[userInputFiltered]]));
+                Console.WriteLine("======================================\n");
+            }
+            else
+            {
+                Console.WriteLine("\n============= Nao Encontrou! ============= ");
+                Console.WriteLine($"\"{userInputFiltered.GetType().FullName}\"");
+                Console.WriteLine("==========================================\n");
+            }
         }
+    } catch (Exception e) {
+        Console.WriteLine(e.ToString());
+        //break;
     }
-} while (userInput != null);
+}
+
+/*
+while(true) {
+    try {
+        var input = Convert.ToInt32(Console.ReadLine());
+        Console.WriteLine($"Input: \"{input}\"\nType: \"{input.GetType().Name}\"");
+    }
+    catch (Exception e) {
+        Console.WriteLine(e.ToString());
+    }
+}
+*/
